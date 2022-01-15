@@ -1,17 +1,19 @@
 //GLOBAL VARIABLES
 
-const question = document.querySelector('#question');
-const choices = Array.from(document.querySelectorAll('.submit-btn'));
+const questions = document.querySelector('#question');
+const choices = Array.from(document.querySelectorAll('#buttons'));
 const scoreText = document.querySelector('#scores');
 const timer = document.querySelector('#time-display');
+
+
+
 
 let currentQuestion = {};         
 let acceptingAnswers = true;       //use this for answer validation 
 let score = 0;                    //score will start at 0
 let questionCounter = 0;          
 let availableQuestions = [];
-let maxTime = 65; 
-
+let totalTime = 60;
 
 //ARRAY OF QUESTIONS 
 
@@ -23,7 +25,7 @@ const Questions = [
         "Cascading Style Sheets",
         "Colorful Style Sheets",
         "Creative Style Sheets"],
-        answer : "optionB"
+        answer: 1
     },
 
     {
@@ -32,7 +34,7 @@ const Questions = [
         "<stylesheet>mystyle.css</stylesheet>",
         "<link rel='stylesheet' type='text/css' href='mystyle.css'>", 
         "<link='styleshet' type='tex/css' href='mystyle.css'>"],
-        answer : "optionC"
+        answer : 2
     },
 
     {   
@@ -41,7 +43,7 @@ const Questions = [
         "None",
         "ol",
         "ul"],
-        answer : "optionC"
+        answer : 2
     },
 
     {
@@ -50,7 +52,7 @@ const Questions = [
         "img {}",
         "None", 
         "#mainpic {}"],
-        answer : "optionD"
+        answer : 3
     },
 
     {
@@ -59,7 +61,7 @@ const Questions = [
         "background-color",
         "color",
         "color:background"],
-        answer : "optionB"
+        answer : 1
     },
 
     {
@@ -67,7 +69,7 @@ const Questions = [
         "border",
         "None",
         "padding"],
-        answer : "optionD"
+        answer : 3
     },
 
     {
@@ -76,7 +78,7 @@ const Questions = [
         "A name='http://www.techbeamers.com'>techbeamers.com",
         "<a href='http://www.techbeamers.com'>techbeamers</a>",
         "<a href: 'http://www.techbeamers.com'>techbeamers</a>"],
-        answer : "optionC"
+        answer : 2
     },
 
     {
@@ -98,16 +100,16 @@ const Questions = [
 
     {   
         question : "Select the correct option to open a link in a new browser window?" ,
-        option : ["a href='url' new",
+        options : ["a href='url' new",
         "a href='url' target=_window",
         "a href='url target='_blank'",
         "a href='url' target='new'"],
-        answer  : "optionC"
+        answer  : 2
     },
 
     {   
         question : "Inside which HTML element do we put the JavaScript? " ,
-        option : ["<script>",
+        options : ["<script>",
         "<js>",
         "<scripting>",
         "<javascript>"],
@@ -116,11 +118,11 @@ const Questions = [
     
     { 
         question : "What is the correct JavaScript syntax to change the content of the HTML element below? <p id='demo'>This is a demonstration.</p>",
-        option : ["document.getElement('p').innerHTML = 'Hello World!';",
+        options : ["document.getElement('p').innerHTML = 'Hello World!';",
         "#demo.innerHTML = 'Hello World!';",
         "document.getElementById('demo').innerHTML = 'Hello World!';",
         "document.getElementByName('p').innerHTML = 'Hello World!';"],
-        answer : "optionC"
+        answer : 2
     },
 
     { 
@@ -129,7 +131,7 @@ const Questions = [
         "msgBox('Hello World');",
         "alert('Hello World');",
         "msg('Hello World');"],
-        answer : "optionC"
+        answer : 2
     },
 
     { 
@@ -147,7 +149,7 @@ const Questions = [
         "myFunction()",
         "call myFunction()",
         "call(myFunction)"],
-        answer : "optionB"
+        answer : 1
     },
 
     {
@@ -156,7 +158,7 @@ const Questions = [
         "if i=! 5 then",
         "if i <> 5",
         "if (i !=5)"],
-        answer : "optionD"
+        answer : 3
     },
 
     {
@@ -165,7 +167,7 @@ const Questions = [
         "while (i <= 10)",
         "while (i <= 10; i++)",
         "while (i; <10 )"],
-        answer : "optionB"
+        answer : 1
     },
 
     { 
@@ -192,7 +194,7 @@ const Questions = [
         "var colors = 1 = ('red'), 2 = ('green'), 3 = ('blue')",
         "var colors = 'red', 'green', 'blue'",
         "var colors = ['red', 'green', 'blue']"],
-        answer : "optionD"
+        answer : 3
     },
 
     {
@@ -201,7 +203,7 @@ const Questions = [
         "top(x, y)",
         "ceil(x, y)",
         "Math.max(x, y)"],
-        answer : "optionD"
+        answer : 3
     },
 
     {   
@@ -210,7 +212,7 @@ const Questions = [
         "onmouseover",
         "onchange",
         "onclick"],
-        answer : "optionD"
+        answer : 3
     },
 
     { 
@@ -228,7 +230,7 @@ const Questions = [
         "v carName",
         "var carName",
         "var car-name"],
-        answer : "optionC"
+        answer : 2
     },
 
     { 
@@ -264,12 +266,11 @@ $("#start-game").click(function() {
     //Run loop of questions
 
     // listofQuestions();
-    displayQuizQuestion(Questions[0]);
-    
+    displayQuizQuestion(0);
     
     //Start countdown timer
     timerCountdown();
-    
+    // timerZero();
   });
     
 // Function that displays list of questions in a loop
@@ -277,32 +278,73 @@ $("#start-game").click(function() {
 
 
 let timerCountdown = function () {
-    let totalTime = 65
+
     setInterval(function() {
         $('#time-display').html("time: " + [totalTime]);
-        totalTime--;
+            totalTime--
     }, 1000)
 
-    //for (let i=65; i> 0; i--) {
-   // console.log(i);
+}
+//Will track for end of quiz and display high score leaderboard
+let endofQuiz = function () {
+    if (totalTime == 0 || questions.question.length == 0) {
+        questions.remove();
+    }
+}
 
-};
 
-let displayQuizQuestion = function (question) {
+let displayQuizQuestion = function (questionIndex) {
+   
+    const question = Questions[questionIndex]
+    const buttonsContainer = document.querySelector("#buttons");
+    let child = buttonsContainer.firstElementChild
+    while(child){
+        child.remove();
+        child = buttonsContainer.firstElementChild;
+    }
+
+    //will update score and that you clicked an answer
+    let submitAnswer = function (index) {
+        if (index === question.answer) {
+            score += 10;
+        }
+        else {
+            score -= 10;
+            totalTime -= 5;
+        }
+        displayQuizQuestion(questionIndex + 1)
     
-    document.querySelector("#question").innerHTML = question.question;
-    
-    
+    }
+
+    document.querySelector("#question").innerText = question.question;
     
     for (let i= 0; i< question.options.length; i++) {
 
         let button = document.createElement("button")
         button.className = "submit-btn"
-        button.innerHTML = question.options[i]
+        button.innerText = question.options[i]
+        button.id = "button_" + i;
+
+        button.addEventListener("click", function() { 
+            submitAnswer(i)
+        })
+        console.log(button)
         document.querySelector("#buttons").appendChild(button)
+        // console.log(document.querySelector("#button_0"))
+        // document.querySelector("#button_" + i).click
     }
 
-}
+    //When we click on a button, the next question will display
+
+};
+
+    let nextQuestion = function () {
+    }
+
+
+
+    let showResults = function () {
+
+    }
 
 // $(".question-display").html("<p>" + this.questions[this.questionNumber].questionText + "</p>");
-
