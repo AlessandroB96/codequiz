@@ -1,7 +1,6 @@
 //GLOBAL VARIABLES
 
 const questions = document.querySelector('#question');
-const choices = Array.from(document.querySelectorAll('#buttons'));
 const scoreText = document.querySelector('#scores');
 const timer = document.querySelector('#time-display');
 
@@ -14,6 +13,10 @@ let score = 0;                    //score will start at 0
 let questionCounter = 0;          
 let availableQuestions = [];
 let totalTime = 60;
+
+//OBJECT ARRAY OF HIGH SCORES
+
+let scores = [];
 
 //ARRAY OF QUESTIONS 
 
@@ -260,7 +263,7 @@ $("#start-game").click(function() {
     console.log("button clicked");
 
     $("#front-page").hide();
-    $(".high-score").hide();
+    $("#high-score-box").hide();
     $("#options").show();
 
     //Run loop of questions
@@ -271,6 +274,7 @@ $("#start-game").click(function() {
     //Start countdown timer
     timerCountdown();
     // timerZero();
+   // endOfQuiz();
   });
     
 // Function that displays list of questions in a loop
@@ -279,29 +283,33 @@ $("#start-game").click(function() {
 
 let timerCountdown = function () {
 
-    setInterval(function() {
+
+    let interval = setInterval(function() {
         $('#time-display').html("time: " + [totalTime]);
-            totalTime--
-    }, 1000)
+        let self = this;
+        
+        if (totalTime === 0) {
+            
+            questions.remove();
+            buttons.remove();
+            clearInterval(interval);
+            
+            //let highScoreBox = document.getElementById("#high-score-box");
+            // highScoreBox.show("#scores");
+            showResults();
+        }
+        totalTime--
+
+    }, 200)
 
 }
 //Will track for end of quiz and display high score leaderboard
-let endofQuiz = function () {
-    if (totalTime == 0 || questions.question.length == 0) {
-        questions.remove();
-    }
-}
-
 
 let displayQuizQuestion = function (questionIndex) {
    
     const question = Questions[questionIndex]
-    const buttonsContainer = document.querySelector("#buttons");
-    let child = buttonsContainer.firstElementChild
-    while(child){
-        child.remove();
-        child = buttonsContainer.firstElementChild;
-    }
+    $("#buttons").empty();
+
 
     //will update score and that you clicked an answer
     let submitAnswer = function (index) {
@@ -323,7 +331,6 @@ let displayQuizQuestion = function (questionIndex) {
         let button = document.createElement("button")
         button.className = "submit-btn"
         button.innerText = question.options[i]
-        button.id = "button_" + i;
 
         button.addEventListener("click", function() { 
             submitAnswer(i)
@@ -338,12 +345,19 @@ let displayQuizQuestion = function (questionIndex) {
 
 };
 
-    let nextQuestion = function () {
-    }
+     let showResults = function () {
+        let endContainer = $("#score-box");
+        console.log(endContainer);
+        endContainer.show();
+        
+        let scoreNumber = $("#score-number");
+        scoreNumber.show();
+       localStorage.setItem('key' , 'value');
+
+        scores.push(...score)
 
 
 
-    let showResults = function () {
 
     }
 

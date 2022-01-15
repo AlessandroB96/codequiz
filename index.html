@@ -10,7 +10,7 @@
 </head>
 <body>
 <div class="container">
-    <div class="high-score">
+    <div class="high-score" id="high-score-box">
          <h3 id="scores">View high scores</h3>
     </div>
 
@@ -38,6 +38,21 @@
         </div>
     </div>
 </container>
+
+<!-- SCORE PAGE -->
+
+<container id= "score-box">
+
+    <div id="all-done"></div>
+
+    <div id="content-same-row">
+        <p>All Done!</p>
+        <p>Your final score is <span id="score-number"> </span></p>
+        <input type="text"></input>
+        <button type= "button" id="submit-score">Submit</button>
+    </div>
+</container>
+
 
 <script src="https://code.jquery.com/jquery-3.5.0.js"></script>
 <script src="./js/script.js"></script>
