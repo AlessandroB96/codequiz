@@ -4,22 +4,13 @@ const questions = document.querySelector('#question');
 const scoreText = document.querySelector('#scores');
 const timer = document.querySelector('#time-display');
 
+let score = 0;                    
+let totalTime = 150;
 
-
-
-let currentQuestion = {};         
-let acceptingAnswers = true;       //use this for answer validation 
-let score = 0;                    //score will start at 0
-let questionCounter = 0;          
-let availableQuestions = [];
-let totalTime = 50;
-
-//OBJECT ARRAY OF HIGH SCORES
-
+//ARRAY OF HIGH SCORES THAT USER WILL ADD 
 let scores = [];
 
 //ARRAY OF QUESTIONS 
-
 const Questions = [
 
     {
@@ -247,9 +238,6 @@ const Questions = [
 
 ];
 
-const SCORE_POINTS = 100;     //Capitalizing in javascript is known to signify that the value remains constant
-const MAX_QUESTIONS = 25;
-
 //ON START UP 
 
 $(document).ready(function() {
@@ -258,16 +246,14 @@ $(document).ready(function() {
 });
 
 
-//LISTEN FOR A CLICK OF THE START QUIZ, HIDE THE QUIZ DESCRIPTION, AND START GAME
-
 let resetGame = function () {
     score= 0;
-    totalTime= 50;
+    totalTime= 150;
 }
 
 
+//LISTEN FOR A CLICK OF THE START QUIZ, HIDE THE QUIZ DESCRIPTION, AND START GAME
 $("#start-game").click(function() {
-    console.log("button clicked");
     resetGame()
     $("#front-page").hide();
     $("#high-score-box").hide();
@@ -286,34 +272,34 @@ $("#start-game").click(function() {
     // timerZero();
    // endOfQuiz();
   });
+   
+//Will track for end of quiz and display high score leaderboard
+  let timerCountdown = function () {
+      
+      
+      let interval = setInterval(function() {
+          $('#time-display').html("time: " + [totalTime]);
+          
+          if (totalTime <= 0 || Questions.option == false) {
+              
+              $("#quiz").hide();
+              clearInterval(interval);
+              //let highScoreBox = document.getElementById("#high-score-box");
+              // highScoreBox.show("#scores");
+              showResults();
+            }
+            totalTime--
+            
+        }, 1000)
+        
+    }
     
 // Function that displays list of questions in a loop
-
-
-
-let timerCountdown = function () {
-
-
-    let interval = setInterval(function() {
-        $('#time-display').html("time: " + [totalTime]);
+    let displayQuizQuestion = function (questionIndex) {
         
-        if (totalTime <= 0) {
-            
-            $("#quiz").hide();
-            clearInterval(interval);
-            console.log("timer run out")
-            //let highScoreBox = document.getElementById("#high-score-box");
-            // highScoreBox.show("#scores");
+        if (questionIndex === Questions.length) {
             showResults();
         }
-        totalTime--
-        
-    }, 100)
-    
-}
-//Will track for end of quiz and display high score leaderboard
-
-let displayQuizQuestion = function (questionIndex) {
     
     const question = Questions[questionIndex]
     $("#buttons").empty();
@@ -333,45 +319,43 @@ let displayQuizQuestion = function (questionIndex) {
     
     document.querySelector("#question").innerText = question.question;
     
-    for (let i= 0; i< question.options.length; i++) {
+    for (let i= 0; i < question.options.length; i++) {
         
         let button = document.createElement("button")
         button.className = "submit-btn"
         button.innerText = question.options[i]
         
         button.addEventListener("click", function() { 
-            submitAnswer(i)
+            submitAnswer(i) 
+
+            //
+
         })
-        console.log(button)
         document.querySelector("#buttons").appendChild(button)
-        // console.log(document.querySelector("#button_0"))
-        // document.querySelector("#button_" + i).click
+        
+      
     }
     
-    //When we click on a button, the next question will display
-    
+
 };
 
+//Displays score on screen 
 let showResults = function () {
+
+    $('#question').hide();
     let endContainer = $("#score-box");
-    console.log(endContainer);
     endContainer.show();
     
     $("#high-score-box").show();
     
-    // $("#scores").show();
+    let scoreDisplay = document.querySelector("#score-number");
+    scoreDisplay.innerHTML = score;
     
     let scoreNumber = $("#score-number");
     scoreNumber.show();
-     //  localStorage.setItem('key' , 'value');
-
-
-
-
-
     }
 
-
+//Logging score data (note: project specs did not explicitly state to use local storage)
     $("#submit-score").click(function() {
         let enterInitials = $("#initials").val();
         $("initials").val(enterInitials);
@@ -382,7 +366,6 @@ let showResults = function () {
         }
 
         scores.push(scoreObject);
-        console.log(scores)
 
         $("#score-box").hide();
         $("#front-page").show();
@@ -393,4 +376,3 @@ let showResults = function () {
         scoreItem.innerText = enterInitials + " " + score;
         $("#score-list").append(scoreItem);
     })
-// $(".question-display").html("<p>" + this.questions[this.questionNumber].questionText + "</p>");

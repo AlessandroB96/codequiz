@@ -18,7 +18,12 @@ header {
     border-radius: 10px;
     padding: 10px 10px 10px 10px;
     box-shadow: 0px 1px 1px 1px black;
+    cursor: pointer;
 
+}
+
+.cursor {
+    cursor: pointer;
 }
 
 .submit-btn {
@@ -88,8 +93,7 @@ header {
 
 #content-same-row {
     display: flex;
-    margin-left: 830px;
-    margin-right: 500px;
+    text-align: center;
     justify-content: space-around;
 }
 
@@ -111,4 +115,66 @@ header {
 .paragraph-text {
     font-size: 25px;
     line-height: 10px;
+}
+
+.li {
+    list-style: none;
+}
+
+/*MEDIA QUERIES */
+
+@media screen and (max-width: 950px) {
+    
+    #score-box {
+        display: flex;
+        flex-direction: column;
+    }
+    #content-same-row {
+        display: flex;
+        flex-direction: column;
+        width: 300px;
+        justify-content: center;
+        margin: auto;
+        
+    } 
+
+    #initials {
+        display: flex;
+        width: 150px;
+        text-align: center;
+        margin: auto auto 20px auto;
+
+    }
+    
+    #submit-score {
+        max-width: 100px;
+        padding: 10px;
+        margin: auto;
+    }
+
+    .container {
+        display: flex;
+        margin: auto;
+        justify-content: center;
+    }
+
+    #scores {
+        margin-left: 0px;
+    }
+
+    #high-score-box {
+        margin-left: 0px;
+    }
+
+}   
+
+@media screen and (max-width: 530px) {
+
+    .submit-btn {
+        min-width: 340px;
+        min-height: 50px;
+        margin-right: 10px;
+        margin-left: 10px;
+    }
+
 }
