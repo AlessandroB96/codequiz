@@ -12,6 +12,11 @@
 <div class="container">
     <div class="high-score" id="high-score-box">
          <h3 id="scores">View high scores</h3>
+         <div>
+             <ul id="score-list">
+                 
+             </ul>
+         </div>
     </div>
 
     <div class="timer">
@@ -20,7 +25,7 @@
 </div>
 <div class="title" id="front-page">
     <h1 class="heading">Coding Quiz Challenge</h1>
-    <p class="subheading">Try to answer the following code-related questions within the time limit. Keep in mind that incorrect answers will penalize your score/time by ten seconds</p>
+    <p class="subheading">Try to answer the following code-related questions within the 60 second time limit. Keep in mind that incorrect answers will penalize your time by 10 seconds</p>
 
 <div class= "button">
     <button type= "button" class= "btn" id= "start-game">Start Quiz</button>
@@ -43,13 +48,17 @@
 
 <container id= "score-box">
 
-    <div id="all-done"></div>
-
-    <div id="content-same-row">
+    <div class="all-done">
         <p>All Done!</p>
-        <p>Your final score is <span id="score-number"> </span></p>
-        <input type="text"></input>
-        <button type= "button" id="submit-score">Submit</button>
+    </div>
+
+    <div class="final-score">
+        <p class="paragraph-text">Your final score is <span id="score-number" class="paragraph-text"></span></p>
+    </div>
+
+      <div id="content-same-row">  
+          <p class="paragraph-text">Enter your initials: </p><input type="text" id="initials"></input>
+        <button type= "button" id="submit-score">SUBMIT</button>
     </div>
 </container>
 

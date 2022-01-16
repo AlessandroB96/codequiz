@@ -12,7 +12,7 @@ let acceptingAnswers = true;       //use this for answer validation
 let score = 0;                    //score will start at 0
 let questionCounter = 0;          
 let availableQuestions = [];
-let totalTime = 60;
+let totalTime = 50;
 
 //OBJECT ARRAY OF HIGH SCORES
 
@@ -254,17 +254,27 @@ const MAX_QUESTIONS = 25;
 
 $(document).ready(function() {
    $("#options").hide();
+   
 });
 
 
 //LISTEN FOR A CLICK OF THE START QUIZ, HIDE THE QUIZ DESCRIPTION, AND START GAME
 
+let resetGame = function () {
+    score= 0;
+    totalTime= 50;
+}
+
+
 $("#start-game").click(function() {
     console.log("button clicked");
-
+    resetGame()
     $("#front-page").hide();
     $("#high-score-box").hide();
+    $("#quiz").show();
     $("#options").show();
+
+    
 
     //Run loop of questions
 
@@ -286,52 +296,49 @@ let timerCountdown = function () {
 
     let interval = setInterval(function() {
         $('#time-display').html("time: " + [totalTime]);
-        let self = this;
         
-        if (totalTime === 0) {
+        if (totalTime <= 0) {
             
-            questions.remove();
-            buttons.remove();
+            $("#quiz").hide();
             clearInterval(interval);
-            
+            console.log("timer run out")
             //let highScoreBox = document.getElementById("#high-score-box");
             // highScoreBox.show("#scores");
             showResults();
         }
         totalTime--
-
-    }, 200)
-
+        
+    }, 100)
+    
 }
 //Will track for end of quiz and display high score leaderboard
 
 let displayQuizQuestion = function (questionIndex) {
-   
+    
     const question = Questions[questionIndex]
     $("#buttons").empty();
-
-
+    
+    
     //will update score and that you clicked an answer
     let submitAnswer = function (index) {
         if (index === question.answer) {
             score += 10;
         }
         else {
-            score -= 10;
             totalTime -= 5;
         }
         displayQuizQuestion(questionIndex + 1)
-    
+        
     }
-
+    
     document.querySelector("#question").innerText = question.question;
     
     for (let i= 0; i< question.options.length; i++) {
-
+        
         let button = document.createElement("button")
         button.className = "submit-btn"
         button.innerText = question.options[i]
-
+        
         button.addEventListener("click", function() { 
             submitAnswer(i)
         })
@@ -340,25 +347,50 @@ let displayQuizQuestion = function (questionIndex) {
         // console.log(document.querySelector("#button_0"))
         // document.querySelector("#button_" + i).click
     }
-
+    
     //When we click on a button, the next question will display
-
+    
 };
 
-     let showResults = function () {
-        let endContainer = $("#score-box");
-        console.log(endContainer);
-        endContainer.show();
-        
-        let scoreNumber = $("#score-number");
-        scoreNumber.show();
-       localStorage.setItem('key' , 'value');
+let showResults = function () {
+    let endContainer = $("#score-box");
+    console.log(endContainer);
+    endContainer.show();
+    
+    $("#high-score-box").show();
+    
+    // $("#scores").show();
+    
+    let scoreNumber = $("#score-number");
+    scoreNumber.show();
+     //  localStorage.setItem('key' , 'value');
 
-        scores.push(...score)
 
 
 
 
     }
 
+
+    $("#submit-score").click(function() {
+        let enterInitials = $("#initials").val();
+        $("initials").val(enterInitials);
+
+        let scoreObject = 
+        {name: enterInitials ,
+         scoreNumber: score 
+        }
+
+        scores.push(scoreObject);
+        console.log(scores)
+
+        $("#score-box").hide();
+        $("#front-page").show();
+        $("#start-game").show();
+        $("#front-page").show();
+        
+        let scoreItem = document.createElement("li");
+        scoreItem.innerText = enterInitials + " " + score;
+        $("#score-list").append(scoreItem);
+    })
 // $(".question-display").html("<p>" + this.questions[this.questionNumber].questionText + "</p>");

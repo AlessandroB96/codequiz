@@ -1,5 +1,9 @@
 * {
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: "Trebuchet MS", Helvetica, sans-serif;
+}
+
+body {
+    background-color: thistle;
 }
 
 header {
@@ -28,9 +32,9 @@ header {
     color: white;
     font-family: Arial, Helvetica, sans-serif;
     font-size: 18px;
-    padding: 0px;
     align-content: center;
-
+    line-height: 50px;
+    padding-left: 30px;
 }
 .container {
     display: flex; 
@@ -45,6 +49,7 @@ header {
     width: 50%;
 }
 
+
 .timer {
     text-align: right;
     position: absolute;
@@ -55,11 +60,12 @@ header {
 .title {
     text-align: center;
     max-width: 660px;
-    margin: 100px auto 30px auto;    
+    margin: 130px auto 30px auto;    
 }
 
 .heading {
     font-size: 60px;
+    
 }
 
 .subheading {
@@ -76,4 +82,33 @@ header {
 
 #score-box {
     display: none;
+    text-align: center;
+    margin-top: 800px;
+}
+
+#content-same-row {
+    display: flex;
+    margin-left: 830px;
+    margin-right: 500px;
+    justify-content: space-around;
+}
+
+#submit-score {
+    background: purple;
+    border-radius: 10px;
+    color: white;
+    font-size: 15px;
+    padding: 0px 10px 0px 10px;
+    font-weight: bold;
+}
+
+.all-done {
+    font-size: 50px;
+    font-family: Arial, Helvetica, sans-serif;
+    line-height: 10px;
+}
+
+.paragraph-text {
+    font-size: 25px;
+    line-height: 10px;
 }
